@@ -18,7 +18,7 @@
 			WKp4bmCTPMJj3IC9HUcrewf5rDE=
 			</data>
 			<key>requirement</key>
-			<string>cdhash H"58aa786e60933cc263dc80bd1d472b7b07f9ac31"</string>
+			<string>cdhash H"58aa786e60933cc263dc80bd1d472b7b07f9ac31" or cdhash H"c5ce6d86ba1ce7f3a22bd5c3e6b258eb96354724"</string>
 		</dict>
 		<key>Resources/RecentFilesMenuTemplate.nib</key>
 		<dict>
