@@ -1,0 +1,16 @@
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/CMakeFiles/DelayGrain.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/CMakeFiles/DelayGrain_All.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/CMakeFiles/DelayGrain_Standalone.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/CMakeFiles/DelayGrain_AUv3.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/CMakeFiles/DelayGrain_AU.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/CMakeFiles/DelayGrain_VST3.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/CMakeFiles/DelayGrain_vst3_helper.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/CMakeFiles/install.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/CMakeFiles/ALL_BUILD.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/CMakeFiles/ZERO_CHECK.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/CMakeFiles/install.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/CMakeFiles/ALL_BUILD.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/CMakeFiles/ZERO_CHECK.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/modules/CMakeFiles/install.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/extras/Build/CMakeFiles/install.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/extras/Build/juceaide/CMakeFiles/install.dir

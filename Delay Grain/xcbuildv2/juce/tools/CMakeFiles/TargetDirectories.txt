@@ -1,0 +1,7 @@
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/tools/CMakeFiles/install.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/tools/CMakeFiles/ALL_BUILD.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/tools/CMakeFiles/ZERO_CHECK.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/tools/modules/CMakeFiles/install.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/tools/extras/Build/CMakeFiles/install.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/tools/extras/Build/juceaide/CMakeFiles/juceaide.dir
+/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/xcbuildv2/juce/tools/extras/Build/juceaide/CMakeFiles/install.dir
