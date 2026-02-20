@@ -1,0 +1,21 @@
+
+{
+    "CmajorVersion":    1,
+    "ID":               "dev.delaygrain",
+    "version":          "1.0",
+    "name":             "Delay Grain",
+    "description":      "Delay grain effect",
+    "manufacturer":     "Victor Schulhoff",
+    "category":         "effect",
+    "isInstrument":     false,
+
+    "source":           "DelayGrain.cmajor",
+    "view": 
+    {
+      "src":       "view/index.js",
+      "width":     400,
+      "height":    400,
+      "resizable": true
+    }
+}       
+

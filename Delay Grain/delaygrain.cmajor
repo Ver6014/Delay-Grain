@@ -1,0 +1,125 @@
+processor SmoothRandomDelayFilter
+{
+    input  stream float in;
+    output stream float out;
+
+    // ==============================
+    // JUCE Parameters (Knobs)
+    // ==============================
+
+    input event float maxDelayParam  [[ name: "Max Delay",  min: 0.0, max: 0.25, init: 0.25 ]];
+    input event float feedbackParam  [[ name: "Feedback",   min: 0.0, max: 1, init: 0.4 ]];
+    input event float mixParam       [[ name: "Mix",        min: 0.0, max: 1, init: 0.5 ]];
+    input event float cutoffParam    [[ name: "Cutoff",     min: 0.0, max: 1, init: 0.5 ]];
+    input event float resonanceParam [[ name: "Resonance",  min: 0.0, max: 1, init: 0.0 ]];
+
+    // ==============================
+    // Parameter Storage
+    // ==============================
+
+    float maxDelay  = 0.25f;
+    float feedback  = 0.4f;
+    float mix       = 0.5f;
+    float cutoffVal = 0.5f;
+    float resonance = 0.0f;
+
+    // ==============================
+    // Delay Buffer (1 second @ 44.1k)
+    // ==============================
+
+    float[44100] delayBuffer;
+    wrap<44100> writeIndex;
+
+    // ==============================
+    // Filter State
+    // ==============================
+
+    float s1 = 0.0f;
+    float s2 = 0.0f;
+
+    // ==============================
+    // Random State
+    // ==============================
+
+    int randState = 1;
+
+    // ==============================
+    // Smooth Random Delay
+    // ==============================
+
+    float currentDelay = 0.25f;
+    float targetDelay  = 0.25f;
+    float smoothFactor = 0.002f;
+
+    // ==============================
+    // Event Handlers (IMPORTANT)
+    // ==============================
+
+    event maxDelayParam  (float v) { maxDelay  = v; }
+    event feedbackParam  (float v) { feedback  = v; }
+    event mixParam       (float v) { mix       = v; }
+    event cutoffParam    (float v) { cutoffVal = v; }
+    event resonanceParam (float v) { resonance = v; }
+
+    // ==============================
+    // Random Generator
+    // ==============================
+
+    float random()
+    {
+        randState = randState * 1664525 + 1013904223;
+        int masked = randState & 2147483647;
+        return float(masked) / 2147483648.0f;
+    }
+
+    // ==============================
+    // MAIN DSP LOOP
+    // ==============================
+
+    void main()
+    {
+        loop
+        {
+            // Clamp parameters
+            float maxD = clamp(maxDelay, 0.0f, 1.0f);
+            float fb   = clamp(feedback, 0.0f, 0.95f);
+            float mx   = clamp(mix, 0.0f, 1.0f);
+
+            float cutoffHz =
+                100.0f + clamp(cutoffVal, 0.0f, 1.0f) * 8000.0f;
+
+            // --- Smooth Random Delay ---
+            targetDelay = random() * maxD;
+            currentDelay += (targetDelay - currentDelay) * smoothFactor;
+
+            float delaySamples =
+                currentDelay * float(processor.frequency);
+
+            int baseIndex = writeIndex - int(delaySamples);
+            float frac = delaySamples - float(int(delaySamples));
+
+            int index0 = (baseIndex + 44100) % 44100;
+            int index1 = (index0 - 1 + 44100) % 44100;
+
+            float delayed =
+                delayBuffer[index0] * (1.0f - frac) +
+                delayBuffer[index1] * frac;
+
+            // Write with feedback
+            delayBuffer[writeIndex] = in + delayed * fb;
+
+            // --- Simple 2-Pole Lowpass ---
+            float f = cutoffHz / float(processor.frequency);
+            f = clamp(f, 0.0f, 0.9f);
+
+            s1 += f * (delayed - s1);
+            s2 += f * (s1 - s2);
+
+            // --- Dry/Wet Mix ---
+            out <- in * (1.0f - mx) + s2 * mx;
+
+            writeIndex++;
+            advance();
+        }
+    }
+}
