@@ -1,7 +1,7 @@
 
 {
     "CmajorVersion":    1,
-    "ID":               "dev.delaygrain",
+    "ID":               "victorschulhoff.delaygrain",
     "version":          "1.0",
     "name":             "Delay Grain",
     "description":      "Delay grain effect",

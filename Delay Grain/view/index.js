@@ -36,70 +36,8 @@ class MyView extends HTMLElement
     {
         return `
             <link href='https://fonts.googleapis.com/css?family=Coral Pixels' rel='stylesheet'>
-            <style>
-                .view-patch-element
-                {
-                    font-family: 'Coral Pixels';font-size: 22px;
-                    text-align: center;
-                    display: block;
-                    width: 100%;
-                    height: 100%;
-                    padding: 10px;
-                    overflow: auto;
-                    flex-direction: column;
-                    align-items: left; 
-                    background-color: lightpink;
-                }
-
-                .param
-                {
-                    -webkit-appearance: none;
-                    width: 100%;
-                    height: 20px;
-                    background: #d3d3d3;
-                    outline: none;
-                    opacity: 0.7;
-                    -webkit-transition: .2s;
-                    transition: opacity .2s;
-                }
-                    .param:hover {
-                        opacity: 1;
-                }
-                
-
-                    .param::-webkit-slider-thumb {
-                    -webkit-appearance: none;
-                    appearance: none;
-                    width: 25px;
-                    height: 25px;
-                    background: #f3768f;
-                    cursor: pointer;
-                }
-
-                    .param::-moz-range-thumb {
-                    width: 25px;
-                    height: 25px;
-                    background: #d8506b;
-                    cursor: pointer;
-                }
-                    .controls
-                    {
-                        border: 1px solid black;
-                        padding: 10px;
-                        border-radius: 5px;
-                        display: flex;
-                        flex-direction: column;
-                        gap: 10px;
-                        width: 300px;
-                        margin: 0 auto;
-                        width: 100%;
-                        background: #f3768f;
-
-                    }
-                        
-
-            </style>
-
+            <link rel="stylesheet" href="view/styles.css">
+            
             <body>
 
                 <h1>Delay Grain</h1>
@@ -108,15 +46,15 @@ class MyView extends HTMLElement
 
                 <div id="controls" class="controls">
                 <p>Max Delay</p>
-                <input type="range" min="0" max="100" value="50" class="param" id="maxDelayParam">
+                <input type="range" min="0" max="100" value="50" class="rangeslider" id="maxDelayParam">
                 <p>Feedback</p>
-                <input type="range" min="0" max="100" value="40" class="param" id="feedbackParam">
+                <input type="range" min="0" max="100" value="40" class="rangeslider" id="feedbackParam">
                 <p>Mix</p>
-                <input type="range" min="0" max="100" value="50" class="param" id="mixParam">
+                <input type="range" min="0" max="100" value="50" class="rangeslider" id="mixParam">
                 <p>Cutoff</p>
-                <input type="range" min="0" max="100" value="50" class="param" id="cutoffParam">
+                <input type="range" min="0" max="100" value="50" class="rangeslider" id="cutoffParam">
                 <p>Resonance</p>
-                <input type="range" min="0" max="100" value="0" class="param" id="resonanceParam">
+                <input type="range" min="0" max="100" value="0" class="rangeslider" id="resonanceParam">
                 </div>    
 
             </body>

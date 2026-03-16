@@ -1,0 +1,11 @@
+{
+	"InstallScripts" : 
+	[
+		"/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/XC V3/cmake_install.cmake",
+		"/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/XC V3/juce/cmake_install.cmake",
+		"/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/XC V3/juce/modules/cmake_install.cmake",
+		"/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/XC V3/juce/extras/Build/cmake_install.cmake",
+		"/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/XC V3/juce/extras/Build/juceaide/cmake_install.cmake"
+	],
+	"Parallel" : false
+}
