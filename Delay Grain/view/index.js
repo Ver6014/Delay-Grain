@@ -15,16 +15,83 @@ class MyView extends HTMLElement
             const slider = this.querySelector ("#" + event.endpointID);
 
             if (slider)
-                slider.value = event.value * 100.0; // Scale the value back to 0-1 range for the slider
+            {
+                slider.value = event.value * 100.0;
+                this.updateKnob(slider);
+            }
         };
 
         this.patchConnection.addAllParameterListener (this.paramListener);
 
-        for (const slider of this.querySelectorAll (".param"))
+        for (const slider of this.querySelectorAll (".knob"))
         {
-            slider.oninput = () => this.patchConnection.sendEventOrValue (slider.id, slider.value / 100.0); // Scale the slider value to 0-1 range before sending
             this.patchConnection.requestParameterValue (slider.id);
+            slider.value = 50; // default
+            this.createKnob(slider);
         }
+    }
+
+    createKnob(knob)
+    {
+        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.setAttribute("width", "80");
+        svg.setAttribute("height", "80");
+        svg.setAttribute("transform", "rotate(-90 40 40)");
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", "40");
+        circle.setAttribute("cy", "40");
+        circle.setAttribute("r", "35");
+        circle.setAttribute("fill", "#ea3b93");
+        circle.setAttribute("stroke", "#000");
+        circle.setAttribute("stroke-width", "2");
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", "40");
+        line.setAttribute("y1", "40");
+        line.setAttribute("stroke", "#000");
+        line.setAttribute("stroke-width", "3");
+        line.setAttribute("stroke-linecap", "round");
+        svg.appendChild(circle);
+        svg.appendChild(line);
+        knob.appendChild(svg);
+        this.updateKnob(knob);
+
+        let isDragging = false;
+        const startDrag = (e) => {
+            isDragging = true;
+            updateValue(e);
+        };
+        const drag = (e) => {
+            if (isDragging) updateValue(e);
+        };
+        const endDrag = () => {
+            isDragging = false;
+        };
+        const updateValue = (e) => {
+            const rect = svg.getBoundingClientRect();
+            const relativeY = e.clientY - rect.top;
+            const value = Math.max(0, Math.min(100, ((rect.height - relativeY) / rect.height) * 100));
+            knob.value = value;
+            this.updateKnob(knob);
+            this.patchConnection.sendEventOrValue(knob.id, value / 100.0);
+        };
+        svg.addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', endDrag);
+    }
+
+    updateKnob(knob)
+    {
+        const line = knob.querySelector('line');
+        const angle = (knob.value / 100) * 270 - 225;
+        const rad = angle * Math.PI / 180;
+        const x2 = 40 + 25 * Math.cos(rad);
+        const y2 = 40 + 25 * Math.sin(rad);
+        line.setAttribute('x2', x2);
+        line.setAttribute('y2', y2);
+
+        const valueId = knob.id.replace('Param', 'Value');
+        const valueDiv = this.querySelector('#' + valueId);
+        if (valueDiv) valueDiv.textContent = knob.value.toFixed(0);
     }
 
     disconnectedCallback()
@@ -43,19 +110,30 @@ class MyView extends HTMLElement
                 <h1>Delay Grain</h1>
                 <p>Made By: Victor Schulhoff</p>
                 <br>
-
-                <div id="controls" class="controls">
+            <div id="console" class="console">
+                
                 <p>Max Delay</p>
-                <input type="range" min="0" max="100" value="50" class="rangeslider" id="maxDelayParam">
+                <div class="knob" id="maxDelayParam"></div>
+                <div class="value-display" id="maxDelayValue">50</div>
+                
                 <p>Feedback</p>
-                <input type="range" min="0" max="100" value="40" class="rangeslider" id="feedbackParam">
+                <div class="knob" id="feedbackParam"></div>
+                <div class="value-display" id="feedbackValue">50</div>
+               
                 <p>Mix</p>
-                <input type="range" min="0" max="100" value="50" class="rangeslider" id="mixParam">
+                <div class="knob" id="mixParam"></div>
+                <div class="value-display" id="mixValue">50</div>
+                
                 <p>Cutoff</p>
-                <input type="range" min="0" max="100" value="50" class="rangeslider" id="cutoffParam">
+                <div class="knob" id="cutoffParam"></div>
+                <div class="value-display" id="cutoffValue">50</div>
+                
+               
                 <p>Resonance</p>
-                <input type="range" min="0" max="100" value="0" class="rangeslider" id="resonanceParam">
-                </div>    
+                <div class="knob" id="resonanceParam"></div>
+                <div class="value-display" id="resonanceValue">50</div>
+               
+            </div>  
 
             </body>
         `;   
