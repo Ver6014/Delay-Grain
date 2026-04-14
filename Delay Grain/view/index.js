@@ -1,148 +1,193 @@
-class MyView extends HTMLElement
+
+/*
+    This simple web component just manually creates a set of plain sliders for the
+    known parameters, and uses some listeners to connect them to the patch.
+*/
+
+import "../view/webaudio-controls.js";
+
+class DemoView extends HTMLElement
 {
     constructor (patchConnection)
     {
-       super(); 
-       this.patchConnection = patchConnection;
-       this.innerHTML = this.getHTML();
-       this.classList.add ("view-patch-element");
+        super();
+        this.patchConnection = patchConnection;
+        this.classList = "demo-patch-element";
+        this.innerHTML = this.getHTML();
     }
 
     connectedCallback()
     {
-        this.paramListener = event =>
+        this.paramListener = (event) =>
         {
+            // Each of our sliders has the same IDs as an endpoint, so we can find
+            // the HTML element from the endpointID that has changed:
             const slider = this.querySelector ("#" + event.endpointID);
 
             if (slider)
-            {
-                slider.value = event.value * 100.0;
-                this.updateKnob(slider);
-            }
+                slider.value = event.value;
         };
 
+        // Attach a parameter listener that will be triggered when any param is moved
         this.patchConnection.addAllParameterListener (this.paramListener);
 
-        for (const slider of this.querySelectorAll (".knob"))
+        for (const knob of this.querySelectorAll ("webaudio-knob"))
         {
-            this.patchConnection.requestParameterValue (slider.id);
-            slider.value = 50; // default
-            this.createKnob(slider);
+            const sendKnobValue = () => this.patchConnection.sendEventOrValue (knob.id, knob.value);
+            knob.addEventListener ("change", sendKnobValue);
+            knob.addEventListener ("input", sendKnobValue);
+
+            // for each knob, request an initial update, to make sure it shows the right value
+            this.patchConnection.requestParameterValue (knob.id);
         }
-    }
-
-    createKnob(knob)
-    {
-        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-        svg.setAttribute("width", "80");
-        svg.setAttribute("height", "80");
-        svg.setAttribute("transform", "rotate(-90 40 40)");
-        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        circle.setAttribute("cx", "40");
-        circle.setAttribute("cy", "40");
-        circle.setAttribute("r", "35");
-        circle.setAttribute("fill", "#ea3b93");
-        circle.setAttribute("stroke", "#000");
-        circle.setAttribute("stroke-width", "2");
-        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-        line.setAttribute("x1", "40");
-        line.setAttribute("y1", "40");
-        line.setAttribute("stroke", "#000");
-        line.setAttribute("stroke-width", "3");
-        line.setAttribute("stroke-linecap", "round");
-        svg.appendChild(circle);
-        svg.appendChild(line);
-        knob.appendChild(svg);
-        this.updateKnob(knob);
-
-        let isDragging = false;
-        const startDrag = (e) => {
-            isDragging = true;
-            updateValue(e);
-        };
-        const drag = (e) => {
-            if (isDragging) updateValue(e);
-        };
-        const endDrag = () => {
-            isDragging = false;
-        };
-        const updateValue = (e) => {
-            const rect = svg.getBoundingClientRect();
-            const relativeY = e.clientY - rect.top;
-            const value = Math.max(0, Math.min(100, ((rect.height - relativeY) / rect.height) * 100));
-            knob.value = value;
-            this.updateKnob(knob);
-            this.patchConnection.sendEventOrValue(knob.id, value / 100.0);
-        };
-        svg.addEventListener('mousedown', startDrag);
-        document.addEventListener('mousemove', drag);
-        document.addEventListener('mouseup', endDrag);
-    }
-
-    updateKnob(knob)
-    {
-        const line = knob.querySelector('line');
-        const angle = (knob.value / 100) * 270 - 225;
-        const rad = angle * Math.PI / 180;
-        const x2 = 40 + 25 * Math.cos(rad);
-        const y2 = 40 + 25 * Math.sin(rad);
-        line.setAttribute('x2', x2);
-        line.setAttribute('y2', y2);
-
-        const valueId = knob.id.replace('Param', 'Value');
-        const valueDiv = this.querySelector('#' + valueId);
-        if (valueDiv) valueDiv.textContent = knob.value.toFixed(0);
     }
 
     disconnectedCallback()
     {
+        // when our element goes offscreen, we should remove any listeners
+        // from the PatchConnection (which may be shared with other clients)
         this.patchConnection.removeAllParameterListener (this.paramListener);
     }
 
     getHTML()
     {
         return `
-            <link href='https://fonts.googleapis.com/css?family=Coral Pixels' rel='stylesheet'>
-            <link rel="stylesheet" href="view/styles.css">
+        <style>
+            .demo-patch-element {
+                background: rgb(96, 102, 108);
+                display: block;
+                width: 100%;
+                height: auto;
+                padding: 10px;
+                overflow: auto;
+            }
+
+            .param {
+                display: inline-flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin: 30px;
+                width: 100px;
+                
+                float: right;
+            }
+
+            .mix-param {
+                width: 180px;
+            }
+
+            #mix {
+                display: flex;
+                width: 100%;
+                margin-bottom: 20px;
+                margin-top: 30px;
+                float: left;
+                vertical-align: auto;
+                border: 1px solid rgb(0, 0, 0);
+                background: #132f3d;
+                background: radial-gradient(circle, rgba(19, 47, 61, 1) 0%, rgba(102, 185, 196, 1) 100%);
+            }
+
+            #controls {
+                
+                float: right;
+                display: inline-flex;  
+                flex-direction: row;
+            }
+
+            webaudio-knob {
+                transform-origin: center center;
+            }
+
+            #mixParam {
+                transform-origin: center center;
+            }
+
+            webaudio-knob::part(label) {
+                display: none;
+            }
+
+            .knob-label {
+                margin-top: 8px;
+                text-align: center;
+                color: white;
+                font-size: 0.85rem;
+                user-select: none;
+            }
+
+            .param::slotted(*) {
+                pointer-events: none;
+            }
             
-            <body>
+            #dly{
+            position: right;
+            }
 
-                <h1>Delay Grain</h1>
-                <p>Made By: Victor Schulhoff</p>
-                <br>
-            <div id="console" class="console">
-                
-                <p>Max Delay</p>
-                <div class="knob" id="maxDelayParam"></div>
-                <div class="value-display" id="maxDelayValue">50</div>
-                
-                <p>Feedback</p>
-                <div class="knob" id="feedbackParam"></div>
-                <div class="value-display" id="feedbackValue">50</div>
-               
-                <p>Mix</p>
-                <div class="knob" id="mixParam"></div>
-                <div class="value-display" id="mixValue">50</div>
-                
-                <p>Cutoff</p>
-                <div class="knob" id="cutoffParam"></div>
-                <div class="value-display" id="cutoffValue">50</div>
-                
-               
-                <p>Resonance</p>
-                <div class="knob" id="resonanceParam"></div>
-                <div class="value-display" id="resonanceValue">50</div>
-               
-            </div>  
+            #fbk{
+            position: left;
+            }
 
-            </body>
-        `;   
+        </style>
+
+        <header style="text-align: center; color: white; font-size: 1.5rem; margin-bottom: 20px; font-weight: bold;">
+            Delay Grain<br>
+            <span style="font-size: 1rem; font-weight: normal;">by Victor Schulhoff</span>
+        </header>
+        
+        <div style="display: inline-flex;  flex-direction: row; horizontal-align: center; border: 1px solid rgb(0, 0, 0); background: rgba(102, 185, 196, 1);">
+        <div id="mix" class="param">
+            <div style="display:flex;flex-direction:column;align-items:center;">
+              <webaudio-knob class="param mix-param" style="vertical-align: middle;" id="mixParam" min="0" max="1" step="0.001" src="view/Sky_Blue_Bevel.png" width="140" height="140"></webaudio-knob>
+              <div class="knob-label">Mix</div>
+            </div>
+        </div>
+        <section id="controls" style="background: #020f1a; background: radial-gradient(circle, rgba(2, 15, 26, 1) 0%, rgba(102, 185, 196, 1) 100%); border-left: 1px solid rgb(0, 0, 0);">
+            <article class="param" id="dly">
+                <div style="display:flex;flex-direction:column;align-items:center;">
+                  <webaudio-knob class="param" id="maxDelayParam" min="0" max="0.03" step="0.0001" width="80"  src="view/Middle_Potion.png" height="80"></webaudio-knob>
+                  <div class="knob-label">Max Delay</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;">
+                  <webaudio-knob class="param" id="feedbackParam"  min="0" max="1" step="0.001" src="view/Middle_Potion.png"  width="80" height="80"></webaudio-knob>
+                  <div class="knob-label">Feedback</div>
+                </div>
+            </article>
+            <br><br>
+            <article class="param" id="fbk">   
+                <div style="display:flex;flex-direction:column;align-items:center;">
+                  <webaudio-knob class="param" id="cutoffParam" min="0" max="1" step="0.001"  src="view/Middle_Potion.png"  width="80" height="80"></webaudio-knob>
+                  <div class="knob-label">Cutoff</div>
+                </div>
+                <div style="display:flex;flex-direction:column;align-items:center;">
+                  <webaudio-knob class="param" id="resonanceParam" min="0" max="1" step="0.001"  src="view/Middle_Potion.png" width="80" height="80"></webaudio-knob>
+                  <div class="knob-label">Resonance</div>
+                </div>
+            </article>
+        </section>
+        </div>
+        `;
+
     }
 }
 
-window.customElements.define ("my-view", MyView);
 
+/* This is the function that a host (the command line patch player, or a Cmajor plugin
+   loader, or our VScode extension, etc) will call in order to create a view for your patch.
+
+   Ultimately, a DOM element must be returned to the caller for it to append to its document.
+   However, this function can be `async` if you need to perform asyncronous tasks, such as
+   fetching remote resources for use in the view, before completing.
+
+   When using libraries such as React, this is where the call to `ReactDOM.createRoot` would
+   go, rendering into a container component before returning.
+*/
 export default function createPatchView (patchConnection)
 {
-    return new MyView (patchConnection);
+    const customElementName = "demo-patch-view";
+
+    if (! window.customElements.get (customElementName))
+        window.customElements.define (customElementName, DemoView);
+
+    return new (window.customElements.get (customElementName)) (patchConnection);
 }

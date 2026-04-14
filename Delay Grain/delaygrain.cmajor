@@ -7,11 +7,11 @@ processor SmoothRandomDelayFilter
     // JUCE Parameters (Knobs)
     // ==============================
 
-    input event float maxDelayParam  [[ name: "Max Delay",  min: 0.0, max: 0.25, init: 0.25 ]];
-    input event float feedbackParam  [[ name: "Feedback",   min: 0.0, max: 1, init: 0.4 ]];
-    input event float mixParam       [[ name: "Mix",        min: 0.0, max: 1, init: 0.5 ]];
-    input event float cutoffParam    [[ name: "Cutoff",     min: 0.0, max: 1, init: 0.5 ]];
-    input event float resonanceParam [[ name: "Resonance",  min: 0.0, max: 1, init: 0.0 ]];
+    input event float maxDelayParam  [[ name: "Max Grain",  min: 0.0, max: 0.03, init: 0 ]];
+    input event float feedbackParam  [[ name: "Feedback",   min: 0.0, max: 1, init: 0 ]];
+    input event float mixParam       [[ name: "Mix",        min: 0.0, max: 1, init: 0 ]];
+    input event float cutoffParam    [[ name: "Cutoff",     min: 0.0, max: 1, init: 0 ]];
+    input event float resonanceParam [[ name: "Resonance",  min: 0.0, max: 1, init: 0 ]];
 
     // ==============================
     // Parameter Storage

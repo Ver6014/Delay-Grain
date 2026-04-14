@@ -1,3 +1,4 @@
 {
-    "C_Cpp.errorSquiggles": "enabled"
+    "C_Cpp.errorSquiggles": "enabled",
+    "cmake.sourceDirectory": "/Users/victorschulhoff/Desktop/Delay-Grain/Delay Grain/v4.1/v4.1"
 }

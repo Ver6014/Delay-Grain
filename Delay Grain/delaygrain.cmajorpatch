@@ -13,9 +13,9 @@
     "view": 
     {
       "src":       "view/index.js",
-      "width":     400,
-      "height":    400,
-      "resizable": true
+      "width":    645,
+      "height":    500,
+      "resizable": false
     }
 }       
 
