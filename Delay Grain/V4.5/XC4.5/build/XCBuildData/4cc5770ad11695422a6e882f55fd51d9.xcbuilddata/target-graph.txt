@@ -1,0 +1,11 @@
+Target dependency graph (4 targets)
+Target 'DelayGrain_Standalone' in project 'SmoothRandomDelayFilter'
+➜ Explicit dependency on target 'ZERO_CHECK' in project 'SmoothRandomDelayFilter'
+➜ Explicit dependency on target 'DelayGrain' in project 'SmoothRandomDelayFilter'
+➜ Explicit dependency on target 'DelayGrain_AUv3' in project 'SmoothRandomDelayFilter'
+Target 'DelayGrain_AUv3' in project 'SmoothRandomDelayFilter'
+➜ Explicit dependency on target 'ZERO_CHECK' in project 'SmoothRandomDelayFilter'
+➜ Explicit dependency on target 'DelayGrain' in project 'SmoothRandomDelayFilter'
+Target 'DelayGrain' in project 'SmoothRandomDelayFilter'
+➜ Explicit dependency on target 'ZERO_CHECK' in project 'SmoothRandomDelayFilter'
+Target 'ZERO_CHECK' in project 'SmoothRandomDelayFilter' (no dependencies)
