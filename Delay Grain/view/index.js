@@ -138,29 +138,29 @@ class DemoView extends HTMLElement
         <div style="display: inline-flex;  flex-direction: row; horizontal-align: center; border: 1px solid rgb(0, 0, 0); background: rgba(102, 185, 196, 1);">
         <div id="mix" class="param">
             <div style="display:flex;flex-direction:column;align-items:center;">
-              <webaudio-knob class="param mix-param" style="vertical-align: middle;" id="mixParam" min="0" max="1" step="0.001" src="view/Sky_Blue_Bevel.png" width="140" height="140"></webaudio-knob>
+              <webaudio-knob style="rotate: 265deg;" class="param mix-param" style="vertical-align: middle;" id="mixParam" min="0" max="1" step="0.001" src="view/Sky_Blue_Bevel.png" width="140" height="140"></webaudio-knob>
               <div class="knob-label">Mix</div>
             </div>
         </div>
         <section id="controls" style="background: #020f1a; background: radial-gradient(circle, rgba(2, 15, 26, 1) 0%, rgba(102, 185, 196, 1) 100%); border-left: 1px solid rgb(0, 0, 0);">
             <article class="param" id="dly">
                 <div style="display:flex;flex-direction:column;align-items:center;">
-                  <webaudio-knob class="param" id="maxDelayParam" min="0" max="0.03" step="0.0001" width="80"  src="view/Middle_Potion.png" height="80"></webaudio-knob>
+                  <webaudio-knob style="rotate: 265deg;" class="param" id="maxDelayParam" min="0" max="0.03" step="0.0001" width="80"  src="view/Middle_Potion.png" height="80"></webaudio-knob>
                   <div class="knob-label">Max Delay</div>
                 </div>
                 <div style="display:flex;flex-direction:column;align-items:center;">
-                  <webaudio-knob class="param" id="feedbackParam"  min="0" max="1" step="0.001" src="view/Middle_Potion.png"  width="80" height="80"></webaudio-knob>
+                  <webaudio-knob style="rotate: 265deg;" class="param" id="feedbackParam"  min="0" max="1" step="0.001" src="view/Middle_Potion.png"  width="80" height="80"></webaudio-knob>
                   <div class="knob-label">Feedback</div>
                 </div>
             </article>
             <br><br>
             <article class="param" id="fbk">   
                 <div style="display:flex;flex-direction:column;align-items:center;">
-                  <webaudio-knob class="param" id="cutoffParam" min="0" max="1" step="0.001"  src="view/Middle_Potion.png"  width="80" height="80"></webaudio-knob>
+                  <webaudio-knob style="rotate: 265deg;" class="param" id="cutoffParam" min="0" max="1" step="0.001"  src="view/Middle_Potion.png"  width="80" height="80"></webaudio-knob>
                   <div class="knob-label">Cutoff</div>
                 </div>
                 <div style="display:flex;flex-direction:column;align-items:center;">
-                  <webaudio-knob class="param" id="resonanceParam" min="0" max="1" step="0.001"  src="view/Middle_Potion.png" width="80" height="80"></webaudio-knob>
+                  <webaudio-knob style="rotate: 265deg;" class="param" id="resonanceParam" min="0" max="1" step="0.001"  src="view/Middle_Potion.png" width="80" height="80"></webaudio-knob>
                   <div class="knob-label">Resonance</div>
                 </div>
             </article>
